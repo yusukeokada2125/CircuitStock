@@ -138,7 +138,6 @@
 
 
 
-# 画面遷移
 
 ## 各画面から遷移できる画面の整理
 
@@ -262,3 +261,45 @@
 
 - 部品管理へ戻る
 → 部品管理画面
+
+
+
+
+## 画面遷移図
+
+```mermaid
+flowchart TD
+    login[ログイン画面]
+    parts[部品管理画面]
+    detail[部品詳細画面]
+    form[部品登録・編集画面]
+    category[カテゴリ管理画面]
+    storage[保管場所管理画面]
+    stockMovementForm[入出庫登録画面]
+    stockMovementHistory[入出庫履歴画面]
+
+    login -->|ログイン成功| parts
+    parts -->|新規登録| form
+    form -->|登録完了| parts
+    parts -->|部品の詳細を見る| detail
+    detail -->|部品管理へ戻る| parts
+    detail -->|部品情報の変更| form
+    form -->|変更完了| detail
+    detail -->|削除完了| parts
+    parts -->|カテゴリ管理| category
+    category -->|部品管理へ戻る| parts
+    parts -->|保管場所管理| storage
+    storage -->|部品管理へ戻る| parts
+    detail -->|入出庫登録| stockMovementForm
+    stockMovementForm -->|登録完了| detail
+    parts -->|全体の入出庫履歴を見る| stockMovementHistory
+    stockMovementHistory -->|部品管理へ戻る| parts
+
+```
+
+- ログイン失敗
+- 検索・絞り込み
+- カテゴリ登録・変更・削除
+- 保管場所登録・変更・削除
+- 出庫時に在庫不足
+→ 画面遷移なし
