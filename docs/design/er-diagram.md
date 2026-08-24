@@ -40,7 +40,9 @@ CircuitStockを利用するユーザーを表す
 
 ### 主要属性
 - カテゴリID 
- → カテゴリを一意に識別するため 
+ → カテゴリを一意に識別するため
+- ユーザーID
+ → カテゴリを管理するユーザーを識別するため
 - カテゴリ名
  → カテゴリを表示・識別する
 
@@ -68,7 +70,9 @@ CircuitStockを利用するユーザーを表す
 
 ### 主要属性
 - 保管場所ID 
- → 保管場所を一意に識別するため 
+ → 保管場所を一意に識別するため
+- ユーザーID
+ → 保管場所を管理するユーザーを識別するため
 - 保管場所名
  → 保管場所を表示・識別する
 
@@ -101,6 +105,8 @@ CircuitStockで管理する部品を表す
  → 部品を表示・識別するため
 - 型番
  → 型番によって同名・類似の部品を識別するため
+- ユーザーID
+ → 部品を管理するユーザーを識別するため
 - カテゴリID
  → 部品がどのカテゴリに属するかを識別するため
 - 保管場所ID
@@ -150,12 +156,12 @@ CircuitStockで管理する部品の入庫・出庫の履歴を表す
  → 入庫か出庫かを識別するため
 - 数量
  → 在庫数の増加・減少を管理するため
-- 備考
- → 在庫数が変動した理由や補足情報を記録するため
+- 理由
+→ 入庫・出庫を行った理由を記録するため
 
 ### 正規化の確認
 - 各属性は1つの値を持つ
-- 作成日時・入出庫区分・数量・備考は入出庫履歴に直接関係する情報として管理する
+- 作成日時・入出庫区分・数量・理由は入出庫履歴に直接関係する情報として管理する
 - 部品名や型番は部品側だけで管理し、入出庫履歴は部品IDで参照する
 - 重複して保持する情報はないため、現時点では分割不要
 
@@ -171,7 +177,7 @@ CircuitStockで管理する部品の入庫・出庫の履歴を表す
 - 作成日時
 - 入出庫区分
 - 数量
-- 備考
+- 理由
 
 
 
@@ -218,3 +224,54 @@ CircuitStockで管理する部品の入庫・出庫の履歴を表す
 - カーディナリティ：1対多
   - 1つの部品は複数の入出庫履歴を持てる
   - 1つの入出庫履歴は1つの部品に属する
+
+
+
+```mermaid
+erDiagram
+    USER {
+        number user_id PK
+        string user_name
+        string email
+        string password
+    }
+
+    CATEGORY {
+        number category_id PK
+        number user_id FK
+        string category_name
+    }
+
+    STORAGE {
+        number storage_id PK
+        number user_id FK
+        string storage_name
+    }
+
+     PART {
+        number part_id PK
+        number user_id FK
+        number category_id FK
+        number storage_id FK
+        string part_name
+        string model_number
+        number stock_quantity
+        
+    }
+
+     STOCK_MOVEMENT_HISTORY  {
+        number stock_movement_id PK
+        number part_id FK
+        timestamp created_at
+        string movement_type
+        number quantity
+        string reason
+    }
+
+    USER ||--o{ CATEGORY : 管理する
+    USER ||--o{ STORAGE : 管理する
+    USER ||--o{ PART : 管理する
+    CATEGORY ||--o{ PART : 分類する
+    STORAGE ||--o{ PART : 保管する
+    PART ||--o{ STOCK_MOVEMENT_HISTORY : 履歴を持つ
+```
