@@ -123,3 +123,20 @@ Issue #5では、以下を**仕様として確定**する。
 Laravelでは、`user_id`の外部キー定義に`foreignId()`と`constrained()`を使用し、ユーザー削除時の連動削除を設定する想定とする。
 
 また、部品から参照されている保管場所はDB側でも削除不可とする。外部キーの削除動作については、`RESTRICT`または`NO ACTION`などを候補として実装時に決定する。
+
+
+
+## parts
+
+### 概要
+
+
+| カラム名 | 論理名 | データ型 | PK | FK | NULL | UNIQUE | DEFAULT | 制約・補足 |
+|---|---|---|---|---|---|---|---|---|
+| id | 部品ID | BIGINT | ○ | - | 不可 | - | - | 自動採番 |
+| user_id | ユーザーID | BIGINT | - | ○ | 不可 | ※ | - | users.idを参照、ON DELETE CASCADE （ユーザー削除時に連動削除） |
+| category_id | カテゴリID | BIGINT | - | ○ | 不可 | ※ | - | categories.idを参照、ON DELETE CASCADE （ユーザー削除時に連動削除） |
+| storage_id | 保管場所ID | BIGINT  | - | ○ | 不可 | ※ | - | storages.idを参照、ON DELETE CASCADE （ユーザー削除時に連動削除） 
+| part_name | 製品名 | - | - | - | - | - | - |  - | 
+| model_number | 型番 | - | - | - | - | - | - |  - | 
+| stock_quantity | 在庫数 | - | - | - | - | - | - |  - | 
