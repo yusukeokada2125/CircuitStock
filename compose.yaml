@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: circuitstock-app
+    working_dir: /var/www/html
+    volumes: 
+      - .:/var/www/html
+    tty: true
