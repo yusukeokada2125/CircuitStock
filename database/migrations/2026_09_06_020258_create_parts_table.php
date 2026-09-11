@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,8 +20,12 @@ return new class extends Migration
             $table->string('part_name', 32);
             $table->string('model_number', 64);
             $table->integer('stock_quantity')->default(0);
-            $table->timestamps();
+            $table->timestampTz('created_at');
+            $table->timestampTz('updated_at');
+            $table->softDeletesTz('deleted_at');
         });
+        DB::statement('ALTER TABLE parts ADD CONSTRAINT parts_stock_quantity_check CHECK(stock_quantity >= 0 AND stock_quantity <= 1000);');
+        DB::statement('CREATE UNIQUE INDEX parts_user_name_model_unique ON parts(user_id,LOWER(part_name),LOWER(model_number))');
     }
 
     /**
