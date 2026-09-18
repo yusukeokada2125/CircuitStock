@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'user_name' => env('INITIAL_user_NAME'),
-    'email' => env('INITIAL_email'),
-    'user_password' => env('INITIAL_password'),
+    'user_name' => env('INITIAL_USER_NAME'),
+    'email' => env('INITIAL_USER_EMAIL'),
+    'password' => env('INITIAL_USER_PASSWORD'),
 ];
