@@ -8,17 +8,29 @@
 <body>
     <h1>ログイン</h1>
 
+    @error('auth')
+        <p>{{ $message }}</p>
+    @enderror
+
     <form action="/login" method="POST">
         @csrf
 
         <div>
             <label for="email">メールアドレス</label>
-            <input type="email" id="email" name="email">
+            <input type="email" id="email" name="email" value="{{ old('email') }}">
+
+            @error('email')
+                <p>{{ $message }}</p>
+            @enderror
         </div>
 
         <div>
             <label for="password">パスワード</label>
             <input type="password" id="password" name="password">
+
+            @error('password')
+                <p>{{ $message }}</p>
+            @enderror
         </div>
 
         <button type="submit">ログイン</button>
