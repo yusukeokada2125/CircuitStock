@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ], [
@@ -18,7 +19,17 @@ class LoginController extends Controller
             'password.string' => 'パスワードは文字列で入力してください',
         ]);
 
-        // 認証処理を実装するまでの仮の戻り先
-        return redirect('/login');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect('/parts');
+        }
+
+        // 認証失敗時は、エラーとメールアドレスを保持して戻す
+        return redirect('/login')
+            ->withErrors([
+                'auth' => 'メールアドレスまたはパスワードが正しくありません',
+            ])
+            ->withInput($request->only('email'));
     }
 }
