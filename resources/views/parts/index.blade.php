@@ -8,5 +8,11 @@
 <body>
     <h1>部品管理</h1>
     <p>部品管理画面（仮）です。</p>
+
+    <form action="/logout" method="POST">
+        @csrf
+
+        <button type="submit">ログアウト</button>
+    </form>
 </body>
 </html>

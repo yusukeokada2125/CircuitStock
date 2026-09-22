@@ -15,6 +15,10 @@ Route::post('/login', [
     LoginController::class, 'store'
 ]);
 
+Route::post('/logout', [
+    LoginController::class, 'destroy'
+]);
+
 Route::get('/parts', function () {
     return view('parts.index');
 });
