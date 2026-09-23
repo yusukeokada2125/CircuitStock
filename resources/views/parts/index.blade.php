@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>部品管理</h1>
+    <p>ログイン中：{{ Auth::user()->user_name }}</p>
     <p>部品管理画面（仮）です。</p>
 
     <form action="/logout" method="POST">
