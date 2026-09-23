@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('auth.login');
-});
+})->name('login');
 
 Route::post('/login', [
     LoginController::class, 'store'
@@ -21,4 +21,4 @@ Route::post('/logout', [
 
 Route::get('/parts', function () {
     return view('parts.index');
-});
+})->middleware('auth');
