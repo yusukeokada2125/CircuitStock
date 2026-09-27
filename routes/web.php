@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,3 +23,7 @@ Route::post('/logout', [
 Route::get('/parts', function () {
     return view('parts.index');
 })->middleware('auth');
+
+Route::get('/categories',[
+    CategoryController::class, 'index'
+])->middleware('auth')->name('categories.index');
