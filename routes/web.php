@@ -27,3 +27,7 @@ Route::get('/parts', function () {
 Route::get('/categories',[
     CategoryController::class, 'index'
 ])->middleware('auth')->name('categories.index');
+
+Route::get('/categories/create',[
+    CategoryController::class, 'create'
+])->middleware('auth')->name('categories.create');
