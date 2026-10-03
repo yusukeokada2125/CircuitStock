@@ -28,6 +28,6 @@ Route::get('/categories',[
     CategoryController::class, 'index'
 ])->middleware('auth')->name('categories.index');
 
-Route::get('/categories/create',[
-    CategoryController::class, 'create'
-])->middleware('auth')->name('categories.create');
+Route::post('/categories', [
+    CategoryController::class, 'store'
+])->middleware('auth')->name('categories.store');
