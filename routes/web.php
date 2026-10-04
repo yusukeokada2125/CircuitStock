@@ -31,3 +31,11 @@ Route::get('/categories',[
 Route::post('/categories', [
     CategoryController::class, 'store'
 ])->middleware('auth')->name('categories.store');
+
+Route::get('/categories/{category}/edit', [
+    CategoryController::class, 'edit'
+])->middleware('auth')->name('categories.edit');
+
+Route::patch('/categories/{category}', [
+    CategoryController::class, 'update'
+])->middleware('auth')->name('categories.update');

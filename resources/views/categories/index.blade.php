@@ -34,7 +34,10 @@
 
     <ul>
         @forelse ($categories as $category)
-            <li>{{ $category->category_name }}</li>
+            <li>
+                {{ $category->category_name }}
+                <a href="{{ route('categories.edit', ['category' => $category->id]) }}">編集</a>
+            </li>
         @empty
             <li>カテゴリはまだ登録されていません</li>
         @endforelse
