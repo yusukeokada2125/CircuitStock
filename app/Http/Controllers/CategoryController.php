@@ -116,5 +116,17 @@ class CategoryController extends Controller
     {
         $destroyingCategory = Category::where('user_id', $request->user()->id)
             ->findOrFail($category);
+        
+        $isUsed = DB::table('parts')
+            ->where('category_id', $destroyingCategory->id)
+            ->exists();
+        
+        if ($isUsed) {
+            return redirect()->route('categories.index')
+                ->withErrors([
+                    'delete' => '部品で使用中のカテゴリは削除できません',
+                ]);
+
+        }
     }
 }
