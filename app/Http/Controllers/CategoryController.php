@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -108,6 +109,28 @@ class CategoryController extends Controller
 
         $updatingCategory->category_name = $validated['category_name'];
         $updatingCategory->save();
+        return redirect()->route('categories.index');
+    }
+
+    public function destroy(Request $request, string $category)
+    {
+        $destroyingCategory = Category::where('user_id', $request->user()->id)
+            ->findOrFail($category);
+        
+        $isUsed = DB::table('parts')
+            ->where('category_id', $destroyingCategory->id)
+            ->exists();
+        
+        if ($isUsed) {
+            return redirect()->route('categories.index')
+                ->withErrors([
+                    'delete' => '部品で使用中のカテゴリは削除できません',
+                ]);
+
+        }
+
+        $destroyingCategory->delete();
+
         return redirect()->route('categories.index');
     }
 }

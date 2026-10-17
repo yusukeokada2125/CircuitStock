@@ -32,11 +32,23 @@
 
     <h2>カテゴリ一覧</h2>
 
+    @error('delete')
+        <p>{{ $message }}</p>
+    @enderror
+
     <ul>
         @forelse ($categories as $category)
+
             <li>
                 {{ $category->category_name }}
                 <a href="{{ route('categories.edit', ['category' => $category->id]) }}">編集</a>
+                <form action="{{ route('categories.destroy', ['category' => $category->id ]) }}"
+                    method="POST"
+                    onsubmit="return confirm('このカテゴリを削除しますか？');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">削除</button>
+                </form>
             </li>
         @empty
             <li>カテゴリはまだ登録されていません</li>

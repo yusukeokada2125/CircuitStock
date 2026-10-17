@@ -39,3 +39,7 @@ Route::get('/categories/{category}/edit', [
 Route::patch('/categories/{category}', [
     CategoryController::class, 'update'
 ])->middleware('auth')->name('categories.update');
+
+Route::delete('/categories/{category}',[
+    CategoryController::class,'destroy'
+])->middleware('auth')->name('categories.destroy');
