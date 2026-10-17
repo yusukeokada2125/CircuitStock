@@ -128,5 +128,9 @@ class CategoryController extends Controller
                 ]);
 
         }
+
+        $destroyingCategory->delete();
+
+        return redirect()->route('categories.index');
     }
 }
